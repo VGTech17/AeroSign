@@ -23,7 +23,7 @@ public class PdfGenerator {
     }
 
     public String generate(FlightLog log) throws IOException, DocumentException {
-        String filePath = "flight_log_" + log.getId() + ".pdf";
+        String filePath = "temp/flight_log_" + log.getId() + ".pdf";
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(filePath));
         document.open();

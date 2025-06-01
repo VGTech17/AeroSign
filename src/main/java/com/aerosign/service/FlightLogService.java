@@ -19,6 +19,11 @@ public class FlightLogService {
         return flightLogRepository.findAll();
     }
 
+    public FlightLog getById(Long id){
+        return flightLogRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Лог с ID " + id + " не найден"));
+    }
+
     public List<FlightLog> getLogsByStatus(String status){
         return flightLogRepository.findAll().stream()
                 .filter(log -> status.equalsIgnoreCase(log.getStatus()))
