@@ -34,9 +34,8 @@ public class ExportController {
     public ResponseEntity<?> exportSignedPdf(@PathVariable Long id) {
         try {
             FlightLog log = flightLogService.getById(id);
-            String signedPdfPath = flightDocumentService.processFlightLog(log);
 
-            File file = new File(signedPdfPath);
+            File file = flightDocumentService.generateTempSignedPdf(log);
             if (!file.exists()) {
                 return ResponseEntity.notFound().build();
             }
@@ -46,11 +45,16 @@ public class ExportController {
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName());
 
-            return ResponseEntity.ok()
+            ResponseEntity<Resource> response = ResponseEntity.ok()
                     .headers(headers)
                     .contentLength(file.length())
                     .contentType(MediaType.APPLICATION_PDF)
                     .body(resource);
+
+            boolean deleted = file.delete();
+            System.out.println("[TempFile] Файл " + file.getName() + " удалён: " + deleted);
+
+            return response;
 
         } catch (Exception e){
             return ResponseEntity.badRequest()
