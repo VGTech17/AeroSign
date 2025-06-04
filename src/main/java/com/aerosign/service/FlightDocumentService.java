@@ -19,19 +19,28 @@ public class FlightDocumentService {
     private final PdfSigner pdfSigner;
     private final PdfTemplateService pdfTemplateService;
     private final TempFileCleanerService tempFileCleanerService;
+    private final AuditService auditService;
 
-    public FlightDocumentService(ValidationService validationService, PdfGenerator pdfGenerator, PdfSigner pdfSigner, PdfTemplateService pdfTemplateService, TempFileCleanerService tempFileCleanerService) {
+    public FlightDocumentService(ValidationService validationService, PdfGenerator pdfGenerator, PdfSigner pdfSigner, PdfTemplateService pdfTemplateService, TempFileCleanerService tempFileCleanerService, AuditService auditService) {
         this.validationService = validationService;
         this.pdfGenerator = pdfGenerator;
         this.pdfSigner = pdfSigner;
         this.pdfTemplateService = pdfTemplateService;
         this.tempFileCleanerService = tempFileCleanerService;
+        this.auditService = auditService;
     }
 
     public String processFlightLog(FlightLog log) throws Exception {
         validationService.isFlightLogValid(log);
         String pdfPath = pdfGenerator.generate(log);
         String signedPdfPath = pdfSigner.sign(pdfPath);
+
+        auditService.logSignature(
+                log,
+                log.getInstructor(),
+                "GOST3411withECGOST3410",
+                "12345678"
+        );
 
         return signedPdfPath;
     }

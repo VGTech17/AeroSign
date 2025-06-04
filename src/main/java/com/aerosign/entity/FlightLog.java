@@ -14,13 +14,17 @@ public class FlightLog {
     private LocalDate date;
     private String aircraft;
     private double duration;
-    private String instructor;
+    private String instructorName;
     private String type;
     private String status;
 
     @ManyToOne
     @JoinColumn(name = "student_id")
     private User student;
+
+    @ManyToOne
+    @JoinColumn(name = "instructor_id")
+    private User instructor;
 
     public FlightLog() {
     }
@@ -57,12 +61,12 @@ public class FlightLog {
         this.duration = duration;
     }
 
-    public String getInstructor() {
-        return instructor;
+    public String getInstructorName() {
+        return instructorName;
     }
 
-    public void setInstructor(String instructor) {
-        this.instructor = instructor;
+    public void setInstructorName(String instructorName) {
+        this.instructorName = instructorName;
     }
 
     public String getType() {
@@ -87,5 +91,13 @@ public class FlightLog {
 
     public void setStudent(User student) {
         this.student = student;
+    }
+
+    public User getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(User instructor) {
+        this.instructor = instructor;
     }
 }

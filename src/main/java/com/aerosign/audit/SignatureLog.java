@@ -41,7 +41,7 @@ public class SignatureLog {
         this.keySerialNumber = keySerialNumber;
     }
 
-    
+
     public Long getId() {
         return id;
     }

@@ -12,7 +12,7 @@ public class ValidationService {
 
         if (log.getAircraft() == null || log.getAircraft().isBlank()) return false;
         if (log.getDuration() <= 0) return false;
-        if (log.getInstructor() == null || log.getInstructor().isBlank()) return false;
+        if (log.getInstructor() == null || !isUserValid(log.getInstructor())) return false;
         if (log.getDate() == null) return false;
         if (log.getType() == null || log.getType().isBlank()) return false;
         if (log.getStatus() == null || log.getStatus().isBlank()) return false;
