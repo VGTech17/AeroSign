@@ -4,9 +4,11 @@ import com.aerosign.audit.SignatureLog;
 import com.aerosign.entity.FlightLog;
 import com.aerosign.entity.User;
 import com.aerosign.repository.SignatureLogRepository;
+import com.aerosign.repository.SignatureRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class AuditService {
@@ -26,5 +28,10 @@ public class AuditService {
         log.setKeySerialNumber(keySerialNumber);
 
         signatureLogRepository.save(log);
+    }
+
+    public List<SignatureLog> getLogsForFlightLog (Long flightLogId){
+        return signatureLogRepository
+                .findByFlightLogIdOrderBySignedAtDesc(flightLogId);
     }
 }
