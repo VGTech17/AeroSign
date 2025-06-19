@@ -3,6 +3,7 @@ package com.aerosign.controller;
 import com.aerosign.audit.SignatureLog;
 import com.aerosign.dto.SignatureLogDTO;
 import com.aerosign.service.AuditService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ public class AuditController {
         this.auditService = auditService;
     }
 
+    @GetMapping("/logs/{flightLogId}")
     public List<SignatureLogDTO> getAuditLogs(@PathVariable Long flightLogId) {
         List<SignatureLog> logs = auditService.getLogsForFlightLog(flightLogId);
 
