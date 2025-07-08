@@ -18,12 +18,17 @@ public class KeyStoreService {
     private PrivateKey privateKey;
     private X509Certificate certificate;
 
-    public KeyStoreService(KeyStoreProperties properties) {
+public KeyStoreService(KeyStoreProperties properties) {
         this.properties = properties;
     }
 
     @PostConstruct
     public void init() throws Exception {
+        System.out.println("=== DEBUG KeyStoreProperties ===");
+        System.out.println("path:     " + properties.getPath());
+        System.out.println("password: " + properties.getPassword());
+        System.out.println("alias:    " + properties.getAlias());
+
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
         try (InputStream stream = new ClassPathResource(properties.getPath()).getInputStream()){
             keyStore.load(stream, properties.getPassword().toCharArray());

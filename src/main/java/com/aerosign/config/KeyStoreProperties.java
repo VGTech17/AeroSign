@@ -4,6 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "keystore")
 public class KeyStoreProperties {
+
     private String path;
     private String password;
     private String alias;

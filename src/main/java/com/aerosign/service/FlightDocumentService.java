@@ -4,6 +4,7 @@ import com.aerosign.entity.FlightLog;
 import com.aerosign.pdf.PdfGenerator;
 import com.aerosign.pdf.PdfSigner;
 import com.aerosign.pdf.PdfTemplateService;
+import com.aerosign.repository.FlightLogRepository;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -20,14 +21,16 @@ public class FlightDocumentService {
     private final PdfTemplateService pdfTemplateService;
     private final TempFileCleanerService tempFileCleanerService;
     private final AuditService auditService;
+    private final FlightLogRepository flightLogRepository;
 
-    public FlightDocumentService(ValidationService validationService, PdfGenerator pdfGenerator, PdfSigner pdfSigner, PdfTemplateService pdfTemplateService, TempFileCleanerService tempFileCleanerService, AuditService auditService) {
+    public FlightDocumentService(ValidationService validationService, PdfGenerator pdfGenerator, PdfSigner pdfSigner, PdfTemplateService pdfTemplateService, TempFileCleanerService tempFileCleanerService, AuditService auditService, FlightLogRepository flightLogRepository) {
         this.validationService = validationService;
         this.pdfGenerator = pdfGenerator;
         this.pdfSigner = pdfSigner;
         this.pdfTemplateService = pdfTemplateService;
         this.tempFileCleanerService = tempFileCleanerService;
         this.auditService = auditService;
+        this.flightLogRepository = flightLogRepository;
     }
 
     public String processFlightLog(FlightLog log) throws Exception {
@@ -43,6 +46,12 @@ public class FlightDocumentService {
         );
 
         return signedPdfPath;
+    }
+
+    public String processFlightLog(Long flightLogId) throws Exception {
+        FlightLog log = flightLogRepository.findById(flightLogId)
+                .orElseThrow(() -> new IllegalArgumentException("Лётный лог не найден: " + flightLogId));
+        return processFlightLog(log);
     }
 
     public File generateTempSignedPdf(FlightLog log) {

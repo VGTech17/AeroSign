@@ -7,6 +7,7 @@ spring:
   h2:
     console:
       enabled: true
+      path: /h2-console
   jpa:
     hibernate:
       ddl-auto: update
@@ -17,13 +18,7 @@ spring:
   server:
     port: 8080
 
-  spring:
-    h2:
-      console:
-        enabled: true
-        path: /h2-console
-
-  keystore:
-    path: classpath:keys/keystore.p12
+keystore:
+    path: keys/keystore.p12
     password: changeit
     alias: aerosign
