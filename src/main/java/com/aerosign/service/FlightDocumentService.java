@@ -5,6 +5,7 @@ import com.aerosign.pdf.PdfGenerator;
 import com.aerosign.pdf.PdfSigner;
 import com.aerosign.pdf.PdfTemplateService;
 import com.aerosign.repository.FlightLogRepository;
+import com.aerosign.validation.BasicValidationService;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -15,7 +16,7 @@ import java.io.FileOutputStream;
 @Service
 public class FlightDocumentService {
 
-    private final ValidationService validationService;
+    private final BasicValidationService validationService;
     private final PdfGenerator pdfGenerator;
     private final PdfSigner pdfSigner;
     private final PdfTemplateService pdfTemplateService;
@@ -23,7 +24,7 @@ public class FlightDocumentService {
     private final AuditService auditService;
     private final FlightLogRepository flightLogRepository;
 
-    public FlightDocumentService(ValidationService validationService, PdfGenerator pdfGenerator, PdfSigner pdfSigner, PdfTemplateService pdfTemplateService, TempFileCleanerService tempFileCleanerService, AuditService auditService, FlightLogRepository flightLogRepository) {
+    public FlightDocumentService(BasicValidationService validationService, PdfGenerator pdfGenerator, PdfSigner pdfSigner, PdfTemplateService pdfTemplateService, TempFileCleanerService tempFileCleanerService, AuditService auditService, FlightLogRepository flightLogRepository) {
         this.validationService = validationService;
         this.pdfGenerator = pdfGenerator;
         this.pdfSigner = pdfSigner;

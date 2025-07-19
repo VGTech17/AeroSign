@@ -1,4 +1,4 @@
-package com.aerosign.signature;
+package com.aerosign.validation;
 
 import org.bouncycastle.cms.CMSException;
 import org.bouncycastle.cms.CMSSignedData;
