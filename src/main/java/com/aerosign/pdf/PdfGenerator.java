@@ -1,6 +1,6 @@
 package com.aerosign.pdf;
 
-import com.aerosign.entity.FlightLog;
+import com.aerosign.entity.secondary.FlightLog;
 import org.springframework.stereotype.Service;
 
 import java.io.FileOutputStream;

@@ -1,14 +1,14 @@
 package com.aerosign.mapper;
 
 import com.aerosign.dto.FlightLogDTO;
-import com.aerosign.entity.FlightLog;
+import com.aerosign.entity.secondary.FlightLog;
 
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
 public class FlightLogMapper {
 
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    /*private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public static FlightLogDTO toDTO(FlightLog entity) {
         FlightLogDTO dto = new FlightLogDTO();
@@ -63,5 +63,6 @@ public class FlightLogMapper {
         dto.setResult("Зачтено"); // TODO: тоже может быть отдельным полем в будущем
 
         return dto;
-    }
+     }
+     */
 }

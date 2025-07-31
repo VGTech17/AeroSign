@@ -1,9 +1,9 @@
 package com.aerosign.controller;
 
 import com.aerosign.dto.FlightLogDTO;
-import com.aerosign.entity.FlightLog;
+import com.aerosign.entity.secondary.FlightLog;
 import com.aerosign.enums.FlightLogStatus;
-import com.aerosign.service.FlightLogService;
+//import com.aerosign.service.FlightLogService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/*
 @RestController
 @RequestMapping("/api/flight-logs")
 public class FlightLogController {
@@ -37,3 +38,5 @@ public class FlightLogController {
         return flightLogService.getAllLogsDTO();
     }
 }
+
+ */

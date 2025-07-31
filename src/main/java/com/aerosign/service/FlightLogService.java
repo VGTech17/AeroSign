@@ -1,14 +1,14 @@
 package com.aerosign.service;
 
-import com.aerosign.entity.FlightLog;
+import com.aerosign.entity.secondary.FlightLog;
 import com.aerosign.dto.FlightLogDTO;
 import com.aerosign.enums.FlightLogStatus;
 import com.aerosign.mapper.FlightLogMapper;
-import com.aerosign.repository.FlightLogRepository;
+import com.aerosign.repository.secondary.FlightLogRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+/*
 @Service
 public class FlightLogService {
 
@@ -40,3 +40,5 @@ public class FlightLogService {
                 .toList();
     }
 }
+
+ */

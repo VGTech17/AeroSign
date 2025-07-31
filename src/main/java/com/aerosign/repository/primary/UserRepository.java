@@ -1,6 +1,6 @@
-package com.aerosign.repository;
+package com.aerosign.repository.primary;
 
-import com.aerosign.entity.User;
+import com.aerosign.entity.primary.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

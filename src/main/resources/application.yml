@@ -4,19 +4,18 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: vgair
     password: ""
+
   jpa:
     hibernate:
-      ddl-auto: none  # или update, если хочешь, чтобы таблицы создавались автоматически
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-server:
-  port: 8080
-
-keystore:
-  path: keys/keystore.p12
-  password: changeit
-  alias: aerosign
+secondary-datasource:
+  url: jdbc:postgresql://localhost:5432/aerosign_service
+  driver-class-name: org.postgresql.Driver
+  username: vgair
+  password: ""

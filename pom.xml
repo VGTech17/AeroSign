@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
+    <groupId>com.aerosign</groupId>
     <artifactId>AeroSign</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -23,13 +23,13 @@
     </properties>
 
     <dependencies>
-        <!-- Spring Boot Starter -->
+        <!-- Spring Core -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
-        <!-- Web + Thymeleaf -->
+        <!-- Web & UI -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -39,7 +39,7 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-        <!-- JPA + PostgreSQL -->
+        <!-- JPA & Database -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -50,20 +50,20 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- H2 (для dev режима) -->
+        <!-- H2 для разработки -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Spring Security -->
+        <!-- Безопасность -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
-        <!-- PDF + Подписи -->
+        <!-- PDF генерация и подпись -->
         <dependency>
             <groupId>com.github.librepdf</groupId>
             <artifactId>openpdf</artifactId>
@@ -80,7 +80,7 @@
             <version>1.70</version>
         </dependency>
 
-        <!-- Lombok (удобные аннотации) -->
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -88,14 +88,14 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Конфигурационный процессор -->
+        <!-- @ConfigurationProperties поддержка -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
 
-        <!-- Тесты -->
+        <!-- Тестирование -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -105,7 +105,6 @@
 
     <build>
         <plugins>
-            <!-- Компилятор -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -119,7 +118,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Spring Boot Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

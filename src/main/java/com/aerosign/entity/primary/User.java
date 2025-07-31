@@ -1,4 +1,4 @@
-package com.aerosign.entity;
+package com.aerosign.entity.primary;
 
 import com.aerosign.enums.Role;
 import jakarta.persistence.*;

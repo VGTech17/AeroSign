@@ -1,10 +1,9 @@
 package com.aerosign.service;
 
 import com.aerosign.audit.SignatureLog;
-import com.aerosign.entity.FlightLog;
-import com.aerosign.entity.User;
-import com.aerosign.repository.SignatureLogRepository;
-import com.aerosign.repository.SignatureRepository;
+import com.aerosign.entity.secondary.FlightLog;
+import com.aerosign.entity.primary.User;
+import com.aerosign.repository.secondary.SignatureLogRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

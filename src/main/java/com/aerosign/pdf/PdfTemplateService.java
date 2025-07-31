@@ -1,6 +1,6 @@
 package com.aerosign.pdf;
 
-import com.aerosign.entity.FlightLog;
+import com.aerosign.entity.secondary.FlightLog;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfWriter;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
-package com.aerosign.repository;
+package com.aerosign.repository.secondary;
 
-import com.aerosign.entity.FlightLog;
+import com.aerosign.entity.secondary.FlightLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

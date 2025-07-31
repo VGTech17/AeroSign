@@ -1,9 +1,9 @@
 package com.aerosign.service;
 
-import com.aerosign.entity.FlightLog;
+import com.aerosign.entity.secondary.FlightLog;
 import com.aerosign.pdf.PdfGenerator;
 import org.springframework.stereotype.Service;
-
+ /*
 @Service
 public class FlightDocumentService {
 
@@ -24,3 +24,5 @@ public class FlightDocumentService {
         return pdfGenerator.generateAndSavePdf(log);
     }
 }
+
+  */

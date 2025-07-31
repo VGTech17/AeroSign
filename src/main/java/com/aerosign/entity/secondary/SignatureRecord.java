@@ -1,4 +1,4 @@
-package com.aerosign.entity;
+package com.aerosign.entity.secondary;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

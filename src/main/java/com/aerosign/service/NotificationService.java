@@ -1,9 +1,9 @@
 package com.aerosign.service;
 
 import com.aerosign.dto.FlightLogDTO;
-import com.aerosign.entity.FlightLog;
+import com.aerosign.entity.secondary.FlightLog;
 import org.springframework.stereotype.Service;
-
+/*
 @Service
 public class NotificationService {
 
@@ -21,3 +21,5 @@ public class NotificationService {
         emailService.send(message);
     }
 }
+
+ */

@@ -1,6 +1,8 @@
-package com.aerosign.entity;
+package com.aerosign.service;
 
-import com.aerosign.entity.*;
+import com.aerosign.entity.primary.*;
+import com.aerosign.entity.primary.Date;
+import com.aerosign.entity.secondary.FlightLog;
 import com.aerosign.enums.DroneType;
 import com.aerosign.enums.FlightCondition;
 

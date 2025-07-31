@@ -1,7 +1,7 @@
 package com.aerosign.audit;
 
-import com.aerosign.entity.FlightLog;
-import com.aerosign.entity.User;
+import com.aerosign.entity.secondary.FlightLog;
+import com.aerosign.entity.primary.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

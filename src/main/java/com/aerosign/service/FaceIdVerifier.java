@@ -1,6 +1,6 @@
 package com.aerosign.service;
 
-import com.aerosign.entity.User;
+import com.aerosign.entity.primary.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

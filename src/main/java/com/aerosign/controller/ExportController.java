@@ -1,10 +1,8 @@
 package com.aerosign.controller;
 
-import com.aerosign.dto.FlightLogDTO;
-import com.aerosign.entity.FlightLog;
-import com.aerosign.mapper.FlightLogMapper;
-import com.aerosign.service.FlightDocumentService;
-import com.aerosign.service.FlightLogService;
+import com.aerosign.entity.secondary.FlightLog;
+//import com.aerosign.service.FlightDocumentService;
+//import com.aerosign.service.FlightLogService;
 import com.aerosign.pdf.PdfGenerator;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -18,15 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.List;
-
+/*
 @RestController
 @RequestMapping("/api/export")
 public class ExportController {
 
-    private final FlightLogService flightLogService;
+   private final FlightLogService flightLogService;
     private final FlightDocumentService flightDocumentService;
     private final PdfGenerator pdfGenerator;
 
@@ -68,3 +63,5 @@ public class ExportController {
         }
     }
 }
+
+ */

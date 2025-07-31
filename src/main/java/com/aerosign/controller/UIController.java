@@ -1,8 +1,8 @@
 package com.aerosign.controller;
 
-import com.aerosign.entity.FlightLog;
-import com.aerosign.repository.FlightLogRepository;
-import com.aerosign.service.FlightDocumentService;
+import com.aerosign.entity.secondary.FlightLog;
+import com.aerosign.repository.secondary.FlightLogRepository;
+//import com.aerosign.service.FlightDocumentService;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-
+/*
 @Controller
 @RequestMapping("/ui")
 public class UIController {
@@ -44,3 +44,5 @@ public class UIController {
                 .body(resource);
     }
 }
+
+ */

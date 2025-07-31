@@ -1,4 +1,4 @@
-package com.aerosign.entity;
+package com.aerosign.entity.secondary;
 
 import com.aerosign.enums.DroneType;
 import com.aerosign.enums.FlightCondition;

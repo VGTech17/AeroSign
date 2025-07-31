@@ -1,4 +1,4 @@
-package com.aerosign.entity;
+package com.aerosign.entity.primary;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

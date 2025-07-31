@@ -1,4 +1,4 @@
-package com.aerosign.repository;
+package com.aerosign.repository.secondary;
 
 import com.aerosign.audit.SignatureLog;
 import org.springframework.data.jpa.repository.JpaRepository;
