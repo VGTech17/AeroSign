@@ -1,13 +1,14 @@
 package com.aerosign.controller;
 
+import com.aerosign.dto.FlightLogDTO;
 import com.aerosign.entity.FlightLog;
+import com.aerosign.mapper.FlightLogMapper;
 import com.aerosign.service.FlightDocumentService;
 import com.aerosign.service.FlightLogService;
-import org.springframework.core.io.FileSystemResource;
+import com.aerosign.pdf.PdfGenerator;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/export")
@@ -24,10 +28,12 @@ public class ExportController {
 
     private final FlightLogService flightLogService;
     private final FlightDocumentService flightDocumentService;
+    private final PdfGenerator pdfGenerator;
 
-    public ExportController(FlightLogService flightLogService, FlightDocumentService flightDocumentService) {
+    public ExportController(FlightLogService flightLogService, FlightDocumentService flightDocumentService, PdfGenerator pdfGenerator) {
         this.flightLogService = flightLogService;
         this.flightDocumentService = flightDocumentService;
+        this.pdfGenerator = pdfGenerator;
     }
 
     @GetMapping("/download/{id}")
@@ -56,7 +62,7 @@ public class ExportController {
 
             return response;
 
-        } catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.badRequest()
                     .body("Ошибка при экспорте PDF: " + e.getMessage());
         }

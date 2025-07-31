@@ -1,36 +1,42 @@
 package com.aerosign.pdf;
 
-import com.aerosign.entity.FlightLog;
+import com.aerosign.dto.FlightLogDTO;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.zip.DataFormatException;
+import java.util.List;
 
-@Service
+@Component
 public class PdfGenerator {
 
-    private final PdfTemplateService templateService;
+    public byte[] generatePdf(List<FlightLogDTO> logs) {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 
-    public PdfGenerator(PdfTemplateService templateService) {
-        this.templateService = templateService;
-    }
+            Document document = new Document();
+            PdfWriter.getInstance(document, baos);
 
-    public String generate(FlightLog log) throws IOException, DocumentException {
-        String filePath = "temp/flight_log_" + log.getId() + ".pdf";
-        Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream(filePath));
-        document.open();
+            document.open();
+            document.add(new Paragraph("Журнал полётов"));
+            document.add(new Paragraph(" ")); // Пустая строка
 
-        templateService.buildFlightLog(document, log);
+            for (FlightLogDTO log : logs) {
+                document.add(new Paragraph(
+                        "Дата: " + log.getDateFormatted() +
+                                ", Время: " + log.getFlightTimeFormatted() +
+                                ", Студент: " + log.getStudentName()
+                ));
+            }
 
-        document.close();
-        return filePath;
+            document.close();
+            return baos.toByteArray();
+
+        } catch (DocumentException | IOException e) {
+            throw new RuntimeException("Ошибка при генерации PDF", e);
+        }
     }
 }

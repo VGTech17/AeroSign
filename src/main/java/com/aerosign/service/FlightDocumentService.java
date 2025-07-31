@@ -1,93 +1,53 @@
 package com.aerosign.service;
 
+import com.aerosign.dto.FlightLogDTO;
 import com.aerosign.entity.FlightLog;
+import com.aerosign.mapper.FlightLogMapper;
 import com.aerosign.pdf.PdfGenerator;
-import com.aerosign.pdf.PdfSigner;
-import com.aerosign.pdf.PdfTemplateService;
-import com.aerosign.repository.FlightLogRepository;
-import com.aerosign.validation.BasicValidationService;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
 
 @Service
 public class FlightDocumentService {
 
-    private final BasicValidationService validationService;
     private final PdfGenerator pdfGenerator;
-    private final PdfSigner pdfSigner;
-    private final PdfTemplateService pdfTemplateService;
-    private final TempFileCleanerService tempFileCleanerService;
-    private final AuditService auditService;
-    private final FlightLogRepository flightLogRepository;
+    private final FlightLogService flightLogService;
 
-    public FlightDocumentService(BasicValidationService validationService, PdfGenerator pdfGenerator, PdfSigner pdfSigner, PdfTemplateService pdfTemplateService, TempFileCleanerService tempFileCleanerService, AuditService auditService, FlightLogRepository flightLogRepository) {
-        this.validationService = validationService;
+    public FlightDocumentService(PdfGenerator pdfGenerator, FlightLogService flightLogService) {
         this.pdfGenerator = pdfGenerator;
-        this.pdfSigner = pdfSigner;
-        this.pdfTemplateService = pdfTemplateService;
-        this.tempFileCleanerService = tempFileCleanerService;
-        this.auditService = auditService;
-        this.flightLogRepository = flightLogRepository;
-    }
-
-    public String processFlightLog(FlightLog log) throws Exception {
-        validationService.isFlightLogValid(log);
-        String pdfPath = pdfGenerator.generate(log);
-        String signedPdfPath = pdfSigner.sign(pdfPath);
-
-        auditService.logSignature(
-                log,
-                log.getInstructor(),
-                "GOST3411withECGOST3410",
-                "12345678"
-        );
-
-        return signedPdfPath;
-    }
-
-    public String processFlightLog(Long flightLogId) throws Exception {
-        FlightLog log = flightLogRepository.findById(flightLogId)
-                .orElseThrow(() -> new IllegalArgumentException("Лётный лог не найден: " + flightLogId));
-        return processFlightLog(log);
+        this.flightLogService = flightLogService;
     }
 
     public File generateTempSignedPdf(FlightLog log) {
-        File tempFile = null;
         try {
+            List<FlightLogDTO> singleLogList = List.of(FlightLogMapper.toDTO(log));
+            byte[] pdfBytes = pdfGenerator.generatePdf(singleLogList);
 
-            File tempDir = new File("temp");
-            if (!tempDir.exists()) {
-                tempDir.mkdirs();
-            }
+            File tempFile = File.createTempFile("flight_log_", ".pdf");
+            Files.write(tempFile.toPath(), pdfBytes);
 
-            tempFile = File.createTempFile("log_" + log.getId() + "_", ".pdf", tempDir);
+            return tempFile;
 
-            String pdfPath = processFlightLog(log); // возвращает путь к PDF
-            File pdfSource = new File(pdfPath);
-
-            if (!pdfSource.exists()) {
-                throw new FileNotFoundException("PDF-файл не найден: " + pdfPath);
-            }
-
-            try (FileInputStream fis = new FileInputStream(pdfSource);
-                 FileOutputStream fos = new FileOutputStream(tempFile)) {
-
-                byte[] buffer = new byte[8192];
-                int bytesRead;
-                while ((bytesRead = fis.read(buffer)) != -1) {
-                    fos.write(buffer, 0, bytesRead);
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Ошибка при генерации временного PDF: " + e.getMessage(), e);
+        } catch (IOException e) {
+            throw new RuntimeException("Ошибка при генерации PDF", e);
         }
+    }
 
-        return tempFile;
+    public String processFlightLog(Long id) {
+        FlightLog log = flightLogService.getById(id); // получаем сущность
+        List<FlightLogDTO> logs = List.of(FlightLogMapper.toDTO(log)); // оборачиваем в список
+        byte[] pdfBytes = pdfGenerator.generatePdf(logs); // генерим PDF
+
+        try {
+            File tempFile = File.createTempFile("flight_log_" + id + "_", ".pdf");
+            Files.write(tempFile.toPath(), pdfBytes);
+            return tempFile.getAbsolutePath(); // путь к файлу
+        } catch (IOException e) {
+            throw new RuntimeException("Ошибка при сохранении PDF-файла", e);
+        }
     }
 }

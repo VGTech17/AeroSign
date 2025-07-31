@@ -1,24 +1,22 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+    url: jdbc:postgresql://localhost:5432/aerosign_data
+    driver-class-name: org.postgresql.Driver
+    username: vgair
+    password: ""
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none  # или update, если хочешь, чтобы таблицы создавались автоматически
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-  server:
-    port: 8080
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8080
 
 keystore:
-    path: keys/keystore.p12
-    password: changeit
-    alias: aerosign
+  path: keys/keystore.p12
+  password: changeit
+  alias: aerosign

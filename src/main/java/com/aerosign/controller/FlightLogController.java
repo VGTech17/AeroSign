@@ -1,6 +1,8 @@
 package com.aerosign.controller;
 
+import com.aerosign.dto.FlightLogDTO;
 import com.aerosign.entity.FlightLog;
+import com.aerosign.enums.FlightLogStatus;
 import com.aerosign.service.FlightLogService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +27,13 @@ public class FlightLogController {
     }
 
     @GetMapping("/status/{status}")
-    public List<FlightLog> getLogsByStatus(@PathVariable String status){
+    public List<FlightLog> getLogsByStatus(@PathVariable FlightLogStatus status){
         return flightLogService.getLogsByStatus(status);
+    }
+
+    // 🔥 Новый DTO-эндпоинт
+    @GetMapping("/dto")
+    public List<FlightLogDTO> getAllLogsDTO() {
+        return flightLogService.getAllLogsDTO();
     }
 }

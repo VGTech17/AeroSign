@@ -28,7 +28,7 @@ public class AuditController {
         return logs.stream()
                 .map(log -> new SignatureLogDTO(
                         log.getSignedAt(),
-                        log.getUser().getName(),
+                        log.getUser().getFullName(),
                         log.getAlgorithm(),
                         log.getKeySerialNumber()
                 ))

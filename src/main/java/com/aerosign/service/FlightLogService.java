@@ -1,6 +1,9 @@
 package com.aerosign.service;
 
 import com.aerosign.entity.FlightLog;
+import com.aerosign.dto.FlightLogDTO;
+import com.aerosign.enums.FlightLogStatus;
+import com.aerosign.mapper.FlightLogMapper;
 import com.aerosign.repository.FlightLogRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +22,21 @@ public class FlightLogService {
         return flightLogRepository.findAll();
     }
 
+    public List<FlightLogDTO> getAllLogsDTO() {
+        return flightLogRepository.findAll()
+                .stream()
+                .map(FlightLogMapper::toDTO)
+                .toList();
+    }
+
     public FlightLog getById(Long id){
         return flightLogRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Лог с ID " + id + " не найден"));
     }
 
-    public List<FlightLog> getLogsByStatus(String status){
+    public List<FlightLog> getLogsByStatus(FlightLogStatus status) {
         return flightLogRepository.findAll().stream()
-                .filter(log -> status.equalsIgnoreCase(log.getStatus()))
+                .filter(log -> log.getStatus() == status)
                 .toList();
     }
 }

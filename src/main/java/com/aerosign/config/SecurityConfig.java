@@ -19,8 +19,11 @@ public class SecurityConfig {
                         .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .headers(headers -> headers.frameOptions().sameOrigin()) // для H2
-                .formLogin(Customizer.withDefaults());
+                .headers(headers -> headers.frameOptions().sameOrigin())
+                .formLogin(form -> form
+                        .defaultSuccessUrl("/ui/logs", true)
+                        .permitAll()
+                );
 
         return http.build();
     }
