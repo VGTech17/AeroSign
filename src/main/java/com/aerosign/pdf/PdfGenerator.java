@@ -1,42 +1,45 @@
 package com.aerosign.pdf;
 
-import com.aerosign.dto.FlightLogDTO;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.pdf.PdfWriter;
-import org.springframework.stereotype.Component;
+import com.aerosign.entity.FlightLog;
+import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
+import java.nio.file.*;
 
-@Component
+@Service
 public class PdfGenerator {
 
-    public byte[] generatePdf(List<FlightLogDTO> logs) {
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+    private final PdfTemplateService pdfTemplateService;
 
-            Document document = new Document();
-            PdfWriter.getInstance(document, baos);
+    public PdfGenerator(PdfTemplateService pdfTemplateService) {
+        this.pdfTemplateService = pdfTemplateService;
+    }
 
-            document.open();
-            document.add(new Paragraph("Журнал полётов"));
-            document.add(new Paragraph(" ")); // Пустая строка
+    public byte[] generateAndSavePdf(FlightLog log) {
+        try {
+            byte[] pdfBytes = pdfTemplateService.generateFlightLogPdf(log);
 
-            for (FlightLogDTO log : logs) {
-                document.add(new Paragraph(
-                        "Дата: " + log.getDateFormatted() +
-                                ", Время: " + log.getFlightTimeFormatted() +
-                                ", Студент: " + log.getStudentName()
-                ));
+            String fileName = String.format("flightlog_%s_%s.pdf",
+                    sanitize(log.getStudentName()),
+                    log.getFlightDate()
+            );
+
+            Path outputDir = Paths.get("generated-pdfs");
+            Files.createDirectories(outputDir);
+
+            Path filePath = outputDir.resolve(fileName);
+            try (FileOutputStream fos = new FileOutputStream(filePath.toFile())) {
+                fos.write(pdfBytes);
             }
 
-            document.close();
-            return baos.toByteArray();
-
-        } catch (DocumentException | IOException e) {
-            throw new RuntimeException("Ошибка при генерации PDF", e);
+            return pdfBytes; // также возвращаем PDF в виде byte[] для REST-контроллера
+        } catch (IOException e) {
+            throw new RuntimeException("Не удалось сохранить PDF-документ", e);
         }
+    }
+
+    private String sanitize(String input) {
+        return input.replaceAll("[^a-zA-Z0-9а-яА-Я_-]", "_");
     }
 }
