@@ -9,6 +9,7 @@ import java.util.Set;
 
 public class FlightLog {
 
+    private Long id;
     // Л Е Т Н А Я  К Н И Ж К А
     //внешнего пилота и (или) оператора беспилотного воздушного судна
     //с максимальной взлетной массой 30 килограммов и менее.
@@ -30,6 +31,13 @@ public class FlightLog {
     private String comment;                  // Комментарий (результат)
     private boolean isExternalPilot;         // Признак внешнего пилота
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getStudentName() {
         return studentName;
@@ -120,43 +128,32 @@ public class FlightLog {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        FlightLog flightLog = (FlightLog) o;
+        return flightCount == flightLog.flightCount && Double.compare(dayDuration, flightLog.dayDuration) == 0 && Double.compare(nightDuration, flightLog.nightDuration) == 0 && Double.compare(totalDuration, flightLog.totalDuration) == 0 && isExternalPilot == flightLog.isExternalPilot && Objects.equals(id, flightLog.id) && Objects.equals(studentName, flightLog.studentName) && Objects.equals(flightDate, flightLog.flightDate) && droneType == flightLog.droneType && Objects.equals(flightConditions, flightLog.flightConditions) && Objects.equals(instructorName, flightLog.instructorName) && Objects.equals(comment, flightLog.comment);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, studentName, flightDate, droneType, flightConditions, flightCount, dayDuration, nightDuration, totalDuration, instructorName, comment, isExternalPilot);
+    }
+
+    @Override
     public String toString() {
         return "FlightLog{" +
-                "flightDate=" + flightDate +
-                ", droneType='" + droneType + '\'' +
+                "id=" + id +
+                ", studentName='" + studentName + '\'' +
+                ", flightDate=" + flightDate +
+                ", droneType=" + droneType +
                 ", flightConditions=" + flightConditions +
                 ", flightCount=" + flightCount +
                 ", dayDuration=" + dayDuration +
                 ", nightDuration=" + nightDuration +
                 ", totalDuration=" + totalDuration +
-                ", studentName='" + studentName + '\'' +
                 ", instructorName='" + instructorName + '\'' +
                 ", comment='" + comment + '\'' +
                 ", isExternalPilot=" + isExternalPilot +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof FlightLog)) return false;
-        FlightLog flightLog = (FlightLog) o;
-        return flightCount == flightLog.flightCount &&
-                Double.compare(flightLog.dayDuration, dayDuration) == 0 &&
-                Double.compare(flightLog.nightDuration, nightDuration) == 0 &&
-                Double.compare(flightLog.totalDuration, totalDuration) == 0 &&
-                isExternalPilot == flightLog.isExternalPilot &&
-                Objects.equals(flightDate, flightLog.flightDate) &&
-                Objects.equals(droneType, flightLog.droneType) &&
-                Objects.equals(flightConditions, flightLog.flightConditions) &&
-                Objects.equals(studentName, flightLog.studentName) &&
-                Objects.equals(instructorName, flightLog.instructorName) &&
-                Objects.equals(comment, flightLog.comment);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(flightDate, droneType, flightConditions, flightCount, dayDuration, nightDuration,
-                totalDuration, studentName, instructorName, comment, isExternalPilot);
     }
 }

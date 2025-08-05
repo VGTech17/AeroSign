@@ -1,45 +1,42 @@
 package com.aerosign.pdf;
 
 import com.aerosign.entity.secondary.FlightLog;
-import org.springframework.stereotype.Service;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
+import org.springframework.stereotype.Component;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.*;
+import java.io.ByteArrayOutputStream;
+import java.time.format.DateTimeFormatter;
 
-@Service
+@Component
 public class PdfGenerator {
 
-    private final PdfTemplateService pdfTemplateService;
-
-    public PdfGenerator(PdfTemplateService pdfTemplateService) {
-        this.pdfTemplateService = pdfTemplateService;
-    }
-
     public byte[] generateAndSavePdf(FlightLog log) {
-        try {
-            byte[] pdfBytes = pdfTemplateService.generateFlightLogPdf(log);
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            Document document = new Document();
+            PdfWriter.getInstance(document, out);
+            document.open();
 
-            String fileName = String.format("flightlog_%s_%s.pdf",
-                    sanitize(log.getStudentName()),
-                    log.getFlightDate()
-            );
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-            Path outputDir = Paths.get("generated-pdfs");
-            Files.createDirectories(outputDir);
+            document.add(new Paragraph("ФИО студента: " + log.getStudentName()));
+            document.add(new Paragraph("Дата полета: " + dateFormatter.format(log.getFlightDate())));
+            document.add(new Paragraph("Вид БВС: " + log.getDroneType()));
+            document.add(new Paragraph("Условия: " + log.getFlightConditions()));
+            document.add(new Paragraph("Количество полетов: " + log.getFlightCount()));
+            document.add(new Paragraph("Налёт (день): " + log.getDayDuration()));
+            document.add(new Paragraph("Налёт (ночь): " + log.getNightDuration()));
+            document.add(new Paragraph("Общий налёт: " + log.getTotalDuration()));
+            document.add(new Paragraph("Инструктор: " + log.getInstructorName()));
+            document.add(new Paragraph("Комментарий: " + log.getComment()));
+            document.add(new Paragraph("Внешний пилот: " + (log.isExternalPilot() ? "Да" : "Нет")));
 
-            Path filePath = outputDir.resolve(fileName);
-            try (FileOutputStream fos = new FileOutputStream(filePath.toFile())) {
-                fos.write(pdfBytes);
-            }
-
-            return pdfBytes; // также возвращаем PDF в виде byte[] для REST-контроллера
-        } catch (IOException e) {
-            throw new RuntimeException("Не удалось сохранить PDF-документ", e);
+            document.close();
+            return out.toByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException("Ошибка при генерации PDF", e);
         }
-    }
-
-    private String sanitize(String input) {
-        return input.replaceAll("[^a-zA-Z0-9а-яА-Я_-]", "_");
     }
 }

@@ -1,10 +1,6 @@
 package com.aerosign.entity.secondary;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
+import jakarta.persistence.*; // или javax.persistence.*
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,25 +9,44 @@ public class SignatureRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String fileName;
+
+    private Long flightLogId;
+    private String signer;
+    private String comment;
+    private String status;
     private LocalDateTime signedAt;
-    private String signedBy;
-    private String filePath;
 
-    public Long getId() {
-        return id;
+    // ✅ Добавь геттеры и сеттеры
+    public Long getFlightLogId() {
+        return flightLogId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setFlightLogId(Long flightLogId) {
+        this.flightLogId = flightLogId;
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getSigner() {
+        return signer;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setSigner(String signer) {
+        this.signer = signer;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public LocalDateTime getSignedAt() {
@@ -42,19 +57,5 @@ public class SignatureRecord {
         this.signedAt = signedAt;
     }
 
-    public String getSignedBy() {
-        return signedBy;
-    }
-
-    public void setSignedBy(String signedBy) {
-        this.signedBy = signedBy;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
+    // id, toString, equals, hashCode – по желанию
 }
